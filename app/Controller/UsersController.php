@@ -6,7 +6,21 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('add');
+        $this->Auth->allow('add','logout');
+    }
+
+    public function login(){
+        if($this->request->is('post')) {
+            if ($this->Auth->login()) {
+                $this->redirect($this->Auth->redirect());
+            } else {
+                $this->Flash->error(__('invalid username or password,try again'));
+            }
+        }
+    }
+
+    public function logout(){
+        $this->redirect($this->Auth->logout());
     }
 
     public function index() {
